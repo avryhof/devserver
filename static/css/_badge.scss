@@ -1,0 +1,34 @@
+@import "vars";
+
+.badge {
+  @extend %boxsizing;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  display: inline-block;
+  width: auto;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 10px;
+  padding: 0 8px 0 8px;
+  color: $black;
+}
+
+.badge-default {
+  color: $black;
+  background: $silver;
+}
+
+.badge-dark {
+  color: #ffffff;
+  background: $black;
+}
+
+.badge-primary { @extend %primary; }
+.badge-secondary { @extend %secondary; }
+.badge-success { @extend %success; }
+.badge-danger { @extend %danger; }
+.badge-warning { @extend %warning; }
+.badge-info { @extend %info; }
+.badge-light { @extend %light; }
+.badge-dark { @extend %dark; }
+.badge-outlined { @extend %outlined; }

@@ -1,0 +1,133 @@
+@import "_vars.scss";
+
+form {
+  @extend %boxsizing;
+  display: block;
+  width: 100%;
+  margin: 0;
+
+  .required-field {
+    color: $red;
+  }
+}
+
+label, .form-control, .btn {
+  @extend %boxsizing;
+  font-size: 1.25em;
+  line-height: 1.5em;
+  padding: 5px 10px;
+}
+
+.form-control, .btn {
+  margin: 0 0 10px;
+}
+
+label {
+  @extend %boxsizing;
+  display: block;
+  font: bold 1.25em $headingFont;
+}
+.form-control {
+  @extend %boxsizing;
+  @extend %borderradius;
+  border-style: solid;
+  width: 100%;
+}
+.form-control:focus {
+  -webkit-box-shadow: $controlShadow;
+  -moz-box-shadow: $controlShadow;
+  box-shadow: $controlShadow;
+  border-color: $widgetHighlightColor;
+}
+
+.btn {
+  @extend %borderradius;
+  border: none;
+  text-decoration: none !important;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-inline {
+  display: inline-block;
+  width: auto;
+}
+
+.btn-primary { color: #FFFFFF; background: $widgetHighlightColor; }
+.btn-primary:hover { background: $widgetHighlightHoverColor; }
+
+.radio {
+  display: inline-block;
+  width: auto;
+  white-space: nowrap;
+  height: $radioWidgetHeight + $radioWidgetBorder;
+  line-height: $radioWidgetHeight + $radioWidgetBorder;
+  margin-right: $radioWidgetHeight / 2;
+  input {
+    visibility: hidden;
+    width: $radioWidgetHeight;
+  }
+  input:checked ~ .checkmark {
+    background: #ffffff url("/static/mobile/images/check-round.png");
+    background-size: cover;
+    height: $radioWidgetHeight - $radioWidgetBorder;
+    width: $radioWidgetHeight - $radioWidgetBorder;
+    border: none;
+  }
+  .check-label {
+    position: relative;
+    left: $radioWidgetHeight;
+  }
+  .checkmark {
+    @extend %boxsizing;
+    display: inline-block;
+    height: $radioWidgetHeight - $radioWidgetBorder;
+    width: $radioWidgetHeight - $radioWidgetBorder;
+    border: $radioBorder;
+    border-radius: 50%;
+    position: relative;
+    left: -1 * $radioWidgetHeight;
+  }
+}
+
+.checkbox {
+  @extend %boxsizing;
+  display: block;
+  overflow-x: auto;
+  margin: 10px 0 10px 0;
+  label {
+    display: block;
+    padding-left: $radioWidgetHeight;
+  }
+  input {
+    visibility: hidden;
+    width: $radioWidgetHeight;
+    margin-left: -1 * ($radioWidgetHeight);
+  }
+  input:checked ~ .checkmark {
+    background: #ffffff url("/static/mobile/images/check-square.png");
+    background-size: cover;
+    height: $radioWidgetHeight - $radioWidgetBorder;
+    width: $radioWidgetHeight - $radioWidgetBorder;
+    border: none;
+  }
+  .check-label {
+    vertical-align: top;
+    margin-left: -1 * ($radioWidgetHeight / 2);
+  }
+  .checkmark {
+    @extend %boxsizing;
+    @extend %borderradius;
+    vertical-align: top;
+    display: inline-block;
+    height: $radioWidgetHeight - $radioWidgetBorder;
+    width: $radioWidgetHeight - $radioWidgetBorder;
+    border: $radioBorder;
+    border-radius: $radioWidgetBorder * 2;
+    position: relative;
+    left: -1 * ($radioWidgetHeight / 2) - $radioWidgetBorder * 2;
+  }
+}
