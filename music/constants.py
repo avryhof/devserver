@@ -23,3 +23,17 @@ ID3_FIELDS = [
     "url",
     "publisher",
 ]
+
+ID3_SEARCH_FIELDS = [
+    "path",
+    "artist",
+    "album",
+    "song",
+    "comment",
+    "year",
+    "band",
+    "composer",
+    "copyright",
+    "url",
+    "publisher",
+]

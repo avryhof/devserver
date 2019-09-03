@@ -10,7 +10,7 @@ from music.models import Song
 
 
 class Command(BaseCommand):
-    help = "Update weather station data from the Ambient Weather API."
+    help = "Read in all of the file paths and ID3 Data."
     verbosity = 0
     current_file = None
     log_file_name = None
@@ -47,7 +47,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.verbosity = int(options["verbosity"])
 
-        for folder in glob.glob(os.path.join(settings.MUSIC_FOLDER, "**")):
+        folder_path = os.path.join(settings.MUSIC_FOLDER, "*")
+
+        for folder in glob.glob(folder_path):
             if os.path.isdir(folder):
                 print("Processing %s" % folder)
                 all_files = glob.glob(os.path.join(folder, "**"), recursive=True)

@@ -6,10 +6,10 @@ DATABASES = {
         "NAME": "dev",
         "USER": "dev",
         "PASSWORD": "dev",
-        "HOST": "192.168.1.133",
+        "HOST": "localhost",
         "PORT": 5432,
         "CONN_MAX_AGE": 600,
     }
 }
 
-MUSIC_FOLDER = os.path.join("Z:", "Music")
+MUSIC_FOLDER = os.path.join("C:\\", "Users", "vryhofa", "Music")

@@ -1,5 +1,4 @@
 import os
-import pprint
 import re
 
 from django.contrib.postgres.search import SearchVector
@@ -9,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 
 from music.api_auth import AnonymousAuthentication
-from music.constants import NO_CACHE_HEADERS, ID3_FIELDS
+from music.constants import NO_CACHE_HEADERS, ID3_SEARCH_FIELDS
 from music.forms import SongSearchForm
 from music.models import Song
 from music.permissions import AnonymousPermission
@@ -34,24 +33,23 @@ def find_song(request, **kwargs):
         form = SongSearchForm(request.GET)
 
     if form.is_valid():
-        search = form.cleaned_data.get("search")
-        artist = form.cleaned_data.get("artist")
-        album = form.cleaned_data.get("album")
-        song = form.cleaned_data.get("song")
-
         search_data = dict()
         for sk in list(form.cleaned_data.keys()):
+            val = form.cleaned_data.get(sk)
             if sk == "search":
                 key = sk
+
+            elif sk == "track":
+                key = sk
+                val = int(val)
+
             else:
                 key = "%s__icontains" % sk
 
             if form.cleaned_data.get(sk):
-                search_data.update({key: form.cleaned_data.get(sk)})
+                search_data.update({key: val})
 
-        pprint.pprint(search_data)
-
-        songs = Song.objects.annotate(search=SearchVector(*ID3_FIELDS)).filter(**search_data)
+        songs = Song.objects.annotate(search=SearchVector(*ID3_SEARCH_FIELDS)).filter(**search_data)
 
         for song in songs:
             resp.append(song.dict())

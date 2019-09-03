@@ -1,5 +1,8 @@
+beautifulsoup4
 Django
 django-extensions
 djangorestframework
 mp3-tagger
 psycopg2-binary
+pytz
+requests
