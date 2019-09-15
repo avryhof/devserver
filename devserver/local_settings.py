@@ -12,4 +12,4 @@ DATABASES = {
     }
 }
 
-MUSIC_FOLDER = os.path.join("C:\\", "Users", "vryhofa", "Music")
+MUSIC_FOLDER = os.path.join("/", "mnt", "net", "nas2", "Music")
