@@ -24,7 +24,7 @@ SECRET_KEY = "%e75-a0m25%0oze*rub(o-7j8wou7z!6$9m7xz#do3e1cgve%g"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["dev.vryhof.net"]
+ALLOWED_HOSTS = ["dev.vryhof.net", "dev.vryhof.local"]
 
 # Application definition
 

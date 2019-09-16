@@ -1,15 +1,30 @@
-@import "vars";
-@import "normalize";
-@import "h5bp";
-@import "grid";
-//@import "breadcrumbs";
-@import "forms";
-//@import "badge";
-@import "accessibility";
+.search-col {
 
-section {
-  display: block;
-  width: 100%;
-  margin: 0 auto 0 auto;
-  padding: 0;
+}
+
+.result {
+  border-radius: 10px;
+  border: 2px solid #dcdcdc;
+  border-bottom: 8px solid #dcdcdc;
+  margin: 5px;
+  h3 {
+    position: static;
+    overflow: hidden;
+    display: block;
+    font-size: 1.31em;
+    vertical-align: middle;
+    line-height: 1.15;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0px;
+    margin-bottom: 0.15em;
+    max-width: 100%;
+  }
+  audio {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 350px;
+  }
 }
