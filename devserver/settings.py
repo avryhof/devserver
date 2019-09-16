@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "bootstrap4",
     "music.apps.DevConfig",
+    "frontend",
 ]
 
 MIDDLEWARE = [

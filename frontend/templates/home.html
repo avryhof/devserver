@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load bootstrap4 %}
+{% load bootstrap4 music_tags %}
 {% block content %}
 
     <section id="search-section">
@@ -37,6 +37,9 @@
                                     <strong>Album:</strong> {{ result.album }} &bull;
                                     <strong>Track:</strong> {{ result.track }}
                                 </em>
+                            </p>
+                            <p>
+                                {{ result.path|basename }}
                             </p>
                         </div>
                     </div>
