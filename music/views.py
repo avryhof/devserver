@@ -1,6 +1,8 @@
 import os
 import re
+import shutil
 
+from django.conf import settings
 from django.contrib.postgres.search import SearchVector
 from django.http import HttpResponse
 from rest_framework import status
@@ -62,7 +64,16 @@ def get_song(request, *args, **kwargs):
 
     if song_pk:
         song = Song.objects.get(pk=song_pk)
-        mp3 = open(song.path, "rb").read()
+
+        cache_path = os.path.join(settings.MEDIA_ROOT, "song_cache")
+        cache_file = os.path.join(cache_path, os.path.basename(song.path))
+        if not os.path.exists(cache_path):
+            os.makedirs(cache_path)
+
+        if not os.path.exists(cache_file):
+            shutil.copy(song.path, cache_file)
+
+        mp3 = open(cache_file, "rb").read()
 
         response = HttpResponse(content=mp3, content_type="audio/mpeg")
         response.streaming = True
@@ -82,7 +93,15 @@ def download_song(request, *args, **kwargs):
         else:
             file_name = re.sub(r"[^A-Za-z0-9_\- ]", "", os.path.split(song.path)[-1])
 
-        mp3 = open(song.path, "rb").read()
+        cache_path = os.path.join(settings.MEDIA_ROOT, "song_cache")
+        cache_file = os.path.join(cache_path, os.path.basename(song.path))
+        if not os.path.exists(cache_path):
+            os.makedirs(cache_path)
+
+        if not os.path.exists(cache_file):
+            shutil.copy(song.path, cache_file)
+
+        mp3 = open(cache_file, "rb").read()
 
         response = HttpResponse(content=mp3, content_type="audio/mpeg")
         response["Content-Disposition"] = "attachment; filename=%s" % file_name
