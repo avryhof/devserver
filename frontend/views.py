@@ -1,4 +1,5 @@
 import requests
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -60,6 +61,7 @@ class HomeView(TemplateView):
 
         return render(request, self.template_name, context)
 
+    @method_decorator(login_required)
     @method_decorator(csrf_protect)
     def dispatch(self, *args, **kwargs):
         return super(HomeView, self).dispatch(*args, **kwargs)
