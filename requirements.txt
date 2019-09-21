@@ -1,5 +1,6 @@
 beautifulsoup4
 Django
+django-allauth
 django-bootstrap4
 django-extensions
 djangorestframework

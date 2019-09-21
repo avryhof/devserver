@@ -34,7 +34,16 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.sites",
     "django.contrib.staticfiles",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.amazon",
+    "allauth.socialaccount.providers.bitbucket",
+    "allauth.socialaccount.providers.digitalocean",
+    "allauth.socialaccount.providers.github",
+    "allauth.socialaccount.providers.nextcloud",
     "django_extensions",
     "rest_framework",
     "bootstrap4",
@@ -51,6 +60,45 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+SOCIALACCOUNT_PROVIDERS = {
+    "amazon": {
+        "key": " amzn1.application-oa2-client.c050f96e90b249a5849414ded53fd9cc",
+        "secret": "06a763473ce52e8fadfeb857d0d197f88e2d4eb350168735a322cb2e2ef54e5d"
+    },
+    "bitbucket": {
+        "key": "7Y47XtS2vE4muu6tU7",
+        "secret": "NUf4ZSXZTVfMZfb6vn8qLCbe9ytqLayB"
+    },
+    "digitalocean": {
+        "key": "1b3ef5fbc051f899b2fe68ffb391c2b5937da8e724a2d9db6e19844e4d5d2b26",
+        "secret": "b88f853cb69e79edfc3541408d35f3a89140d32de015c5316cb26958cb8ef6ee"
+    },
+    "github": {
+        "key": "8719c63677d3c82fc344",
+        "secret": "220a108a3f1f4fc6d197af81e12453cda174788c",
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    },
+    'nextcloud': {
+        'SERVER': 'https://nextcloud.vryhof.net',
+        "key": "FINLC48LRnqkcUwdtbZTfhsSOt9DeJU86FTjFLAcnc3PZM26jfc8MQu8GlSydaYR",
+        "secret": "L598NUv7r8P9w8X47jopGUzipt3v96XZgjpBeTfVII7QInCVQ8nBiVSvHAHEERqB"
+    }
+}
 
 ROOT_URLCONF = "devserver.urls"
 
