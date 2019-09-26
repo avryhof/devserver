@@ -26,10 +26,7 @@
                 {% for result in results %}
                     <div class="row result">
                         <div class="col-12">
-                            <audio controls>
-                                <source src="{% url "get_song" result.pk %}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
+                            {% audio result.pk %}
                             <h3>{{ result.song }}</h3>
                             <p>
                                 <em>
