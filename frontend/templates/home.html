@@ -24,22 +24,24 @@
             </div>
             {% if results %}
                 {% for result in results %}
-                    <div class="row result">
-                        <div class="col-12">
-                            {% audio result.pk %}
-                            <h3>{{ result.song }}</h3>
-                            <p>
-                                <em>
-                                    <strong>Artist:</strong> {{ result.artist }} &bull;
-                                    <strong>Album:</strong> {{ result.album }} &bull;
-                                    <strong>Track:</strong> {{ result.track }}
-                                </em>
-                            </p>
-                            <p>
-                                {{ result.path|basename }}
-                            </p>
+                    {% if result.pk %}
+                        <div class="row result">
+                            <div class="col-12">
+                                {% audio result.pk %}
+                                <h3>{{ result.song }}</h3>
+                                <p>
+                                    <em>
+                                        <strong>Artist:</strong> {{ result.artist }} &bull;
+                                        <strong>Album:</strong> {{ result.album }} &bull;
+                                        <strong>Track:</strong> {{ result.track }}
+                                    </em>
+                                </p>
+                                <p>
+                                    {{ result.path|basename }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>

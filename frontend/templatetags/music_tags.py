@@ -12,9 +12,9 @@ def basename(value):
     return os.path.basename(value)
 
 
-@register.tag
+@register.simple_tag
 def audio(song_id):
-    song_url = reverse("stream_song", song_id)
+    song_url = reverse("stream_song", args=[song_id])
     html = '<audio controls preload="none"><source src="%s" type="audio/mpeg">Not supported.</audio>' % song_url
 
     return mark_safe(html)
