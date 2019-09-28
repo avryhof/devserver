@@ -68,7 +68,7 @@ def song_stream(request, *args, **kwargs):
             mp3 = open(cache_file, "rb").read()
 
             response = HttpResponse(content=mp3, content_type="audio/mpeg")
-            response["Content-Length"] = len(mp3)
+            # response["Content-Length"] = len(mp3)
             # response["Content-Length"] = file_size
             response.streaming = True
         else:
