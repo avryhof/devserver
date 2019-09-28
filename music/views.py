@@ -69,7 +69,7 @@ def song_stream(request, *args, **kwargs):
             response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
         else:
-            song_path = os.path.join(settings.MUSIC_FOLDER)
+            song_path = os.path.join(settings.MUSIC_FOLDER, song.path)
             file_size = os.path.getsize(song_path)
             mp3 = open(song_path, "rb").read()
 
@@ -94,7 +94,7 @@ def song_download(request, *args, **kwargs):
             response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
         else:
-            song_path = os.path.join(settings.MUSIC_FOLDER)
+            song_path = os.path.join(settings.MUSIC_FOLDER, song.path)
             file_size = os.path.getsize(song_path)
             mp3 = open(song_path, "rb").read()
 
