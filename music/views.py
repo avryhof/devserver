@@ -1,5 +1,6 @@
 import os
 
+from django.conf import settings
 from django.contrib.postgres.search import SearchVector
 from django.http import HttpResponse
 from rest_framework import status
@@ -61,18 +62,20 @@ def song_stream(request, *args, **kwargs):
     song_pk = kwargs.get("pk")
 
     if song_pk:
-        cache_file = cache_song(song_pk)
+        try:
+            song = Song.objects.get(pk=song_pk)
 
-        if cache_file:
-            # file_size = os.path.getsize(cache_file)
-            mp3 = open(cache_file, "rb").read()
+        except Song.DoesNotExist:
+            response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            song_path = os.path.join(settings.MUSIC_FOLDER)
+            file_size = os.path.getsize(song_path)
+            mp3 = open(song_path, "rb").read()
 
             response = HttpResponse(content=mp3, content_type="audio/mpeg")
-            # response["Content-Length"] = len(mp3)
-            # response["Content-Length"] = file_size
+            response["Content-Length"] = file_size
             response.streaming = True
-        else:
-            response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
     else:
         response = HttpResponse(status=status.HTTP_400_BAD_REQUEST)
@@ -84,18 +87,22 @@ def song_download(request, *args, **kwargs):
     song_pk = kwargs.get("pk")
 
     if song_pk:
-        cache_file = cache_song(song_pk)
+        try:
+            song = Song.objects.get(pk=song_pk)
 
-        if cache_file:
-            # file_size = os.path.getsize(cache_file)
-            mp3 = open(cache_file, "rb").read()
-
-            file_name = os.path.split(cache_file)[-1]
-            response = HttpResponse(content=mp3, content_type="audio/mpeg")
-            # response["Content-Length"] = file_size
-            response["Content-Disposition"] = "attachment; filename=%s" % file_name
-        else:
+        except Song.DoesNotExist:
             response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            song_path = os.path.join(settings.MUSIC_FOLDER)
+            file_size = os.path.getsize(song_path)
+            mp3 = open(song_path, "rb").read()
+
+            file_name = os.path.split(song.path)[-1]
+            response = HttpResponse(content=mp3, content_type="audio/mpeg")
+            response["Content-Length"] = file_size
+            response["Content-Disposition"] = "attachment; filename=%s" % file_name
+
     else:
         response = HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 

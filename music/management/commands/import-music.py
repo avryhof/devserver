@@ -26,7 +26,7 @@ class Command(BaseCommand):
                 except Exception:
                     pass
                 else:
-                    song_dict = dict(path=path)
+                    song_dict = dict(path=path.replace(settings.MUSIC_FOLDER, ""))
                     try:
                         Song.objects.get(**song_dict)
                     except Song.DoesNotExist:

@@ -9,8 +9,8 @@ from music.models import Song
 
 def fn_slug(filename):
     basename = os.path.basename(filename)
-    extension = str(os.path.splitext(filename))
-    return "%s%s" % (re.sub(r"[^A-Za-z0-9_\- ]", "", basename), extension.lower())
+    extension = filename.split(".")[-1]
+    return "%s.%s" % (re.sub(r"[^A-Za-z0-9_\- ]", "", basename), extension.lower())
 
 
 def get_song_filename(song):
