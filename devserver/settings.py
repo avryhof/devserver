@@ -201,4 +201,5 @@ LOGGING = {
     },
 }
 
-MUSIC_FOLDER = os.path.join("/", "mnt", "net", "nas2", "Music")
+# MUSIC_FOLDER = os.path.join("/", "mnt", "net", "nas2", "Music")
+MUSIC_FOLDER = os.path.join("/", "home", "avryhof", "Music")
