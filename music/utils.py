@@ -39,6 +39,8 @@ def cache_song(song_pk):
                 os.makedirs(cache_path)
 
             if not os.path.exists(cache_file) or not os.path.getsize(song.path) == os.path.getsize(cache_file):
+                if os.path.exists(cache_file):
+                    os.remove(cache_file)
                 shutil.copy(song.path, cache_file)
 
     return was_cached
