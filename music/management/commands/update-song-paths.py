@@ -25,5 +25,5 @@ class Command(BaseCommand):
             file_name = song.path
             new_path = song.path.replace(settings.OLD_MUSIC_FOLDER, "")
 
-            print(file_name, new_path)
-            exit()
+            song.path = new_path
+            song.save()
