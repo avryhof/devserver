@@ -64,11 +64,12 @@ def song_stream(request, *args, **kwargs):
         cache_file = cache_song(song_pk)
 
         if cache_file:
-            file_size = os.path.getsize(cache_file)
+            # file_size = os.path.getsize(cache_file)
             mp3 = open(cache_file, "rb").read()
 
             response = HttpResponse(content=mp3, content_type="audio/mpeg")
-            response["Content-Length"] = file_size
+            response["Content-Length"] = len(mp3)
+            # response["Content-Length"] = file_size
             response.streaming = True
         else:
             response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
@@ -86,12 +87,12 @@ def song_download(request, *args, **kwargs):
         cache_file = cache_song(song_pk)
 
         if cache_file:
-            file_size = os.path.getsize(cache_file)
+            # file_size = os.path.getsize(cache_file)
             mp3 = open(cache_file, "rb").read()
 
             file_name = os.path.split(cache_file)[-1]
             response = HttpResponse(content=mp3, content_type="audio/mpeg")
-            response["Content-Length"] = file_size
+            # response["Content-Length"] = file_size
             response["Content-Disposition"] = "attachment; filename=%s" % file_name
         else:
             response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
