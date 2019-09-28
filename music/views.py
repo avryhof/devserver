@@ -1,8 +1,5 @@
 import os
-import re
-import shutil
 
-from django.conf import settings
 from django.contrib.postgres.search import SearchVector
 from django.http import HttpResponse
 from rest_framework import status
@@ -10,10 +7,11 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 
 from music.api_auth import AnonymousAuthentication
-from music.constants import NO_CACHE_HEADERS, ID3_SEARCH_FIELDS
-from music.forms import SongSearchForm
+from music.constants import NO_CACHE_HEADERS, ID3_SEARCH_FIELDS, API_FAILURE, API_SUCCESS
+from music.forms import SongSearchForm, AddToPlaylistForm
 from music.models import Song
 from music.permissions import AnonymousPermission
+from music.utils import cache_song
 
 
 @api_view(["GET", "POST"])
@@ -59,53 +57,65 @@ def find_song(request, **kwargs):
     return Response(resp, status=status.HTTP_200_OK, headers=NO_CACHE_HEADERS)
 
 
-def get_song(request, *args, **kwargs):
+def song_stream(request, *args, **kwargs):
     song_pk = kwargs.get("pk")
 
     if song_pk:
-        song = Song.objects.get(pk=song_pk)
+        cache_file = cache_song(song_pk)
 
-        cache_path = os.path.join(settings.MEDIA_ROOT, "song_cache")
-        cache_file = os.path.join(cache_path, os.path.basename(song.path))
-        if not os.path.exists(cache_path):
-            os.makedirs(cache_path)
+        if cache_file:
+            file_size = os.path.getsize(cache_file)
+            mp3 = open(cache_file, "rb").read()
 
-        if not os.path.exists(cache_file):
-            shutil.copy(song.path, cache_file)
-
-        mp3 = open(cache_file, "rb").read()
-
-        response = HttpResponse(content=mp3, content_type="audio/mpeg")
-        response.streaming = True
-    else:
-        response = HttpResponse(status=404)
-
-    return response
-
-
-def download_song(request, *args, **kwargs):
-    song_pk = kwargs.get("pk")
-
-    if song_pk:
-        song = Song.objects.get(pk=song_pk)
-        if song.artist and song.album:
-            file_name = re.sub(r"[^A-Za-z0-9_\- ]", "", "%s.mp3" % str(song))
+            response = HttpResponse(content=mp3, content_type="audio/mpeg")
+            response["Content-Length"] = file_size
+            response.streaming = True
         else:
-            file_name = re.sub(r"[^A-Za-z0-9_\- ]", "", os.path.split(song.path)[-1])
+            response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-        cache_path = os.path.join(settings.MEDIA_ROOT, "song_cache")
-        cache_file = os.path.join(cache_path, os.path.basename(song.path))
-        if not os.path.exists(cache_path):
-            os.makedirs(cache_path)
-
-        if not os.path.exists(cache_file):
-            shutil.copy(song.path, cache_file)
-
-        mp3 = open(cache_file, "rb").read()
-
-        response = HttpResponse(content=mp3, content_type="audio/mpeg")
-        response["Content-Disposition"] = "attachment; filename=%s" % file_name
     else:
-        response = HttpResponse(status=404)
+        response = HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
     return response
+
+
+def song_download(request, *args, **kwargs):
+    song_pk = kwargs.get("pk")
+
+    if song_pk:
+        cache_file = cache_song(song_pk)
+
+        if cache_file:
+            file_size = os.path.getsize(cache_file)
+            mp3 = open(cache_file, "rb").read()
+
+            file_name = os.path.split(cache_file)[-1]
+            response = HttpResponse(content=mp3, content_type="audio/mpeg")
+            response["Content-Length"] = file_size
+            response["Content-Disposition"] = "attachment; filename=%s" % file_name
+        else:
+            response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
+    else:
+        response = HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+    return response
+
+
+@api_view(["GET", "POST"])
+@authentication_classes((AnonymousAuthentication,))
+@permission_classes((AnonymousPermission,))
+def add_song_to_playlist(request):
+    form = AddToPlaylistForm(request.POST)
+
+    resp_status = API_FAILURE
+
+    if form.is_valid():
+        resp_status = API_SUCCESS
+        playlist = form.cleaned_data.get("playlist")
+        song = form.cleaned_data.get("song")
+
+        playlist.add_song(song.pk)
+
+    resp = dict(result=resp_status)
+
+    return Response(resp, status=status.HTTP_200_OK, headers=NO_CACHE_HEADERS)

@@ -1,4 +1,6 @@
-from django.forms import CharField, Form
+from django.forms import CharField, Form, ModelChoiceField
+
+from music.models import PlayList, Song
 
 
 class SongSearchForm(Form):
@@ -6,3 +8,8 @@ class SongSearchForm(Form):
     artist = CharField(required=False)
     album = CharField(required=False)
     song = CharField(required=False)
+
+
+class AddToPlaylistForm(Form):
+    playlist = ModelChoiceField(PlayList.objects.all())
+    song = ModelChoiceField(Song.objects.all())

@@ -1,6 +1,7 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import DO_NOTHING
+from django.db.models import DO_NOTHING, ForeignKey, ManyToManyField, DateTimeField
 from django.db.models import Model, TextField, CharField, IntegerField, URLField
 
 from music.constants import ID3_FIELDS
@@ -61,3 +62,28 @@ class Song(Model):
             retn.update({sk: val})
 
         return retn
+
+
+class PlayList(Model):
+    user = ForeignKey(get_user_model(), on_delete=DO_NOTHING)
+    title = CharField(max_length=255, blank=True, null=True)
+    songs = ManyToManyField(Song, blank=True)
+    created = DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title if self.title else "Playlist %s" % str(self.pk)
+
+    def add_song(self, song_id):
+        added = True
+
+        try:
+            new_song = Song.objects.get(pk=song_id)
+
+        except Song.DoesNotExist:
+            added = False
+
+        else:
+            self.songs.add(new_song)
+            self.save()
+
+        return added

@@ -164,6 +164,7 @@ STATICFILES_FINDERS = (
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
+SONG_CACHE_PATH = os.path.join(MEDIA_ROOT, "song_cache")
 
 ERROR_LOG = os.path.join(os.path.dirname(BASE_DIR), "logs", "error.log")
 

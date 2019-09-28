@@ -1,10 +1,11 @@
-from django.conf.urls import url
+from django.urls import path, re_path
 
-from music.views import find_song, get_song, download_song
+from music.views import find_song, song_stream, song_download, add_song_to_playlist
 
 urlpatterns = [
-    url(r"^search/$", find_song, name="find_song"),
-    url(r"^song/(?P<pk>\d+)/$", download_song, name="song"),
-    url(r"^song/(?P<pk>\d+)/stream$", get_song, name="stream_song"),
-    url(r"^song/(?P<pk>\d+)/download/$", download_song, name="download_song"),
+    path("^search/", find_song, name="find_song"),
+    re_path(r"^song/(?P<pk>\d+)/$", song_download, name="song"),
+    re_path(r"^song/(?P<pk>\d+)/stream$", song_stream, name="song_stream"),
+    re_path(r"^song/(?P<pk>\d+)/download/$", song_download, name="song_download"),
+    path("playlist/add/", add_song_to_playlist, name="playlist_add")
 ]
