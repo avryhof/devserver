@@ -1,11 +1,16 @@
 import os
 
 from django import template
+from django.conf import settings
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 register = template.Library()
 
+
+@register.filter
+def song_path(song_path):
+    return os.path.join(settings.MUSIC_FOLDER, song_path)
 
 @register.filter
 def basename(value):
