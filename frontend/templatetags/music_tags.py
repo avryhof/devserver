@@ -1,11 +1,8 @@
 import os
 
 from django import template
-from django.conf import settings
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-
-from music.utils import get_song_path
 
 register = template.Library()
 
