@@ -55,17 +55,18 @@ class Command(BaseCommand):
         self.verbosity = int(options["verbosity"])
 
         if options['clear']:
+            self.stdout.write("Clearing table.")
             Song.objects.all().delete()
 
         folder_path = os.path.join(settings.MUSIC_FOLDER, "*")
 
         for folder in glob.glob(folder_path):
             if os.path.isdir(folder):
-                print("Processing %s" % folder)
+                self.stdout.write("Processing %s" % folder)
                 all_files = glob.glob(os.path.join(folder, "**"), recursive=True)
                 for all_file in all_files:
                     self.import_song(all_file)
 
             else:
-                print("Processing %s" % folder)
+                self.stdout.write("Processing %s" % folder)
                 self.import_song(folder)

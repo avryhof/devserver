@@ -11,11 +11,6 @@ register = template.Library()
 
 
 @register.filter
-def song_path(song_pk):
-    return get_song_path(song_pk)
-
-
-@register.filter
 def basename(value):
     return os.path.basename(value)
 
