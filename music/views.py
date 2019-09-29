@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 
+from devserver.settings import MUSIC_FOLDER
 from music.api_auth import AnonymousAuthentication
 from music.constants import NO_CACHE_HEADERS, ID3_SEARCH_FIELDS, API_FAILURE, API_SUCCESS
 from music.forms import SongSearchForm, AddToPlaylistForm
@@ -69,9 +70,8 @@ def song_stream(request, *args, **kwargs):
             response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
         else:
-            song_path = os.path.join(settings.MUSIC_FOLDER, song.path)
-            file_size = os.path.getsize(song_path)
-            mp3 = open(song_path, "rb").read()
+            file_size = os.path.getsize(song.path)
+            mp3 = open(song.path, "rb").read()
 
             response = HttpResponse(content=mp3, content_type="audio/mpeg")
             response["Content-Length"] = file_size
@@ -94,9 +94,8 @@ def song_download(request, *args, **kwargs):
             response = HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
         else:
-            song_path = os.path.join(settings.MUSIC_FOLDER, song.path)
-            file_size = os.path.getsize(song_path)
-            mp3 = open(song_path, "rb").read()
+            file_size = os.path.getsize(song.path)
+            mp3 = open(song.path, "rb").read()
 
             file_name = os.path.split(song.path)[-1]
             response = HttpResponse(content=mp3, content_type="audio/mpeg")

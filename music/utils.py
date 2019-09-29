@@ -22,6 +22,19 @@ def get_song_filename(song):
     return file_name
 
 
+def get_song_path(song_pk):
+    try:
+        song = Song.objects.get(pk=song_pk)
+
+    except Song.DoesNotExist:
+        song_path = False
+
+    else:
+        song_path = song.path
+
+    return song_path
+
+
 def cache_song(song_pk):
     was_cached = True
 

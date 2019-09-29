@@ -16,6 +16,13 @@ class Command(BaseCommand):
     log_file_name = None
     log_file = False
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--clear',
+            action='store_true',
+            help='Clear the Songs table before importing.',
+        )
+
     def import_song(self, path):
         ext = os.path.splitext(path)[-1].lower()
         if ext == ".mp3":
@@ -26,7 +33,7 @@ class Command(BaseCommand):
                 except Exception:
                     pass
                 else:
-                    song_dict = dict(path=path.replace(settings.MUSIC_FOLDER, ""))
+                    song_dict = dict(path=path)
                     try:
                         Song.objects.get(**song_dict)
                     except Song.DoesNotExist:
@@ -46,6 +53,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.verbosity = int(options["verbosity"])
+
+        if options['clear']:
+            Song.objects.all().delete()
 
         folder_path = os.path.join(settings.MUSIC_FOLDER, "*")
 
