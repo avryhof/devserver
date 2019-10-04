@@ -1,0 +1,27 @@
+{% load bootstrap4 music_tags %}
+{% if results %}
+    <div class="grid">
+        {% for result in results %}
+            {% if result.pk %}
+                <div class="grid-item result">
+                    <div class="result-title">
+                        <h3>{{ result.song }}</h3>
+                    </div>
+                    <div class="result-body">
+                        <p>
+                            <em>
+                                <strong>Artist:</strong> {{ result.artist }}<br>
+                                <strong>Album:</strong> {{ result.album }}<br>
+                                <strong>Track:</strong> {{ result.track }}
+                            </em>
+                        </p>
+                        <p>
+                            {{ result.path|basename }}
+                        </p>
+                    </div>
+                    {% audio result.pk %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

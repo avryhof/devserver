@@ -9,17 +9,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {% bootstrap_css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/v4-shims.min.css" integrity="sha256-L4B/tCDq4GACEVL8PJebMOHv1j+ry0TFsUOdJzjdw5M=" crossorigin="anonymous" />
     <link href="{% static "css/main.css" %}" rel="stylesheet">
 
     <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
-<!-- Add your site or application content here -->
+{% include "nav.html" %}
 {% block content %}{% endblock %}
 
 <script src="{% static "js/vendor/modernizr-3.7.1.min.js" %}"></script>
 {% bootstrap_javascript jquery="slim" %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/fontawesome.min.js" integrity="sha256-MoYcVrOTRHZb/bvF8DwaNkTJkqu9aCR21zOsGkkBo78=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/v4-shims.min.js" integrity="sha256-HnZ8h1HlClWD0GOHTuXyhwO8zMJIRGrhsKi+sjaiBBU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
 <script src="{% static "js/plugins.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
 </body>

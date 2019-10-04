@@ -1,12 +1,27 @@
-.search-col {
+@import "sidebar";
+@import "navbar";
 
+body {
+  font-size: .875rem;
+}
+
+.main {
+  margin: 60px 0 0 0;
+  padding: 25px 10px 10px 10px;
 }
 
 .result {
-  border-radius: 10px;
+  width: 350px;
+  height: 250px;
   border: 2px solid #dcdcdc;
   border-bottom: 8px solid #dcdcdc;
   margin: 5px;
+  .result-title, .result-body {
+    padding: 5px 10px;
+  }
+  .result-title {
+    border-bottom: 1px solid #ededed;
+  }
   h3 {
     position: static;
     overflow: hidden;
@@ -20,17 +35,8 @@
   }
   audio {
     width: 100%;
-  }
-}
-
-@media screen and (min-width: 1100px) {
-  .result {
-    audio {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      height: 100%;
-      width: 350px;
-    }
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 }
