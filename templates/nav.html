@@ -1,11 +1,11 @@
 {% load bootstrap4 %}
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2" href="#">@Dev Server</a>
-    <form action="{% url "home" %}" method="post" class="col-sm-9 col-md-10">
+    <form action="{% url "home" %}" method="post" class="col-sm-9 col-md-8">
         {% csrf_token %}
         <div class="form-row">
             <div class="col-auto">
-                {{form.search}}
+                {{ form.search }}
             </div>
             <div class="col-auto">
                 {% buttons %}
@@ -14,4 +14,19 @@
             </div>
         </div>
     </form>
+    <ul class="navbar-nav px-3">
+        {% if request.user.is_authenticated %}
+            <li class="nav-item text-nowrap">
+                <a href="{% url "logout" %}" class="nav-link">
+                    Log Out
+                </a>
+            </li>
+        {% else %}
+            <li class="nav-item text-nowrap">
+                <a href="{% url "login" %}" class="nav-link">
+                    Log In
+                </a>
+            </li>
+        {% endif %}
+    </ul>
 </nav>

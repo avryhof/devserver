@@ -1,6 +1,5 @@
 import os
 
-from django.conf import settings
 from django.contrib.postgres.search import SearchVector
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
@@ -9,13 +8,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 
-from devserver.settings import MUSIC_FOLDER
-from music.api_auth import AnonymousAuthentication
+from accounts.api_auth import AnonymousAuthentication
 from music.constants import NO_CACHE_HEADERS, ID3_SEARCH_FIELDS, API_FAILURE, API_SUCCESS
 from music.forms import SongSearchForm, AddToPlaylistForm, PlaylistForm
 from music.models import Song, PlayList
-from music.permissions import AnonymousPermission
-from music.utils import cache_song
+from accounts.permissions import AnonymousPermission
 
 
 @api_view(["GET", "POST"])

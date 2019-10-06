@@ -3,7 +3,7 @@ from rest_framework import authentication
 from rest_framework.exceptions import AuthenticationFailed
 
 from music.constants import API_AUTH_FAILED_RESPONSE_MESSAGE
-from music.models import AuthorizedAgent
+from .models import AuthorizedAgent
 
 
 class AssistantAuthentication(authentication.BaseAuthentication):

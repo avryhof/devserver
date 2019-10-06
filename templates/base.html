@@ -4,7 +4,9 @@
 
 <head>
     <meta charset="utf-8">
+    {% block title %}
     <title>@DEV</title>
+    {% endblock %}
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,11 +15,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/v4-shims.min.css" integrity="sha256-L4B/tCDq4GACEVL8PJebMOHv1j+ry0TFsUOdJzjdw5M=" crossorigin="anonymous" />
     <link href="{% static "css/main.css" %}" rel="stylesheet">
 
+    {% for css in extra_css %}
+        <link href="{% static css %}" rel="stylesheet">
+    {% endfor %}
+
     <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
+{% if "login" not in request.path %}
 {% include "nav.html" %}
+{% endif %}
 {% block content %}{% endblock %}
 
 <script src="{% static "js/vendor/modernizr-3.7.1.min.js" %}"></script>
@@ -27,6 +35,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
 <script src="{% static "js/plugins.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
+{% for javascript in extra_javascript %}
+    <script src="{% static javascript %}"></script>
+{% endfor %}
 </body>
 
 </html>

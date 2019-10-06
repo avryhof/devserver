@@ -1,15 +1,8 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 from mp3_tagger import MP3File, VERSION_2, VERSION_1
 
 from music.constants import ID3_FIELDS, ID3_SEARCH_FIELDS
-from .models import AuthorizedAgent, Song
-
-
-@admin.register(AuthorizedAgent)
-class AuthorizedAgentAdmin(admin.ModelAdmin):
-    list_display = ("app_name", "user", "authorized")
-    list_filter = ("authorized", "user")
+from .models import Song, PlayList
 
 
 @admin.register(Song)
@@ -34,3 +27,10 @@ class SongAdmin(admin.ModelAdmin):
                         setattr(mp3, id3_key, str(field_val))
 
             mp3.save()
+
+
+@admin.register(PlayList)
+class PlayListAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "title", "created")
+    list_filter = ("user", "created")
+    raw_id_fields = ("songs",)

@@ -1,17 +1,8 @@
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import models
 from django.db.models import DO_NOTHING, ForeignKey, ManyToManyField, DateTimeField
 from django.db.models import Model, TextField, CharField, IntegerField, URLField
 
 from music.constants import ID3_FIELDS
-
-
-class AuthorizedAgent(models.Model):
-    authorized = models.BooleanField(default=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, default=None, blank=True, null=True, on_delete=DO_NOTHING)
-    app_name = models.CharField(max_length=200, blank=True, null=True)
-    app_key = models.TextField(blank=True, null=True)
 
 
 class Song(Model):
