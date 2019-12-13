@@ -73,11 +73,11 @@ class LoginView(TemplateView):
                 redirect_response = HttpResponseRedirect(resolve_url(url, *args, **kwargs))
 
                 if remember_username:
-                    redirect_response.set_cookie('remembered_username', username)
+                    redirect_response.set_cookie("remembered_username", username)
 
                 return redirect_response
 
-        context['form'] = form
+        context["form"] = form
 
         return render(request, self.template_name, context)
 
