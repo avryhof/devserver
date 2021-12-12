@@ -1,8 +1,7 @@
-from django.conf.urls import url
+from django.urls import path
 
 from frontend.views import HomeView
-from music.views import find_song, song_stream, song_download
 
 urlpatterns = [
-    url("^$", HomeView.as_view(), name="home"),
+    path("", HomeView.as_view(), name="home"),
 ]
